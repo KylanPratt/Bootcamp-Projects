@@ -1,0 +1,37 @@
+version: "3.6"
+############################################################
+## For testing, make sure no existing docker network collisions exist then:
+## docker-compose down && docker-compose up --remove-orphans --force-recreate --
+##renew-anon-volumes
+## This will remove all anonymous volumes (databases, etc.).
+############################################################
+services:
+  # nessus:
+  #  container_name: nessus
+  #  image: tenableofficial/nessus
+  #  ports:
+  #         - 8834:8834
+  #  volumes:
+  #     - ./:/var/www/html
+  #  networks:
+  #    vuln-net:
+  #      ipv4_address: 192.168.13.20
+  rekall-ctf:
+    container_name: rekall-ctf
+    image: cyberxsecurity/rekall-ctf
+    ports:
+      - 10099:80
+    volumes:
+      - ./:/home
+    networks:
+      vuln-net2:
+        ipv4_address: 192.168.14.35
+############################################################
+networks:
+  vuln-net2:
+    name: vuln-net2
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.14.0/24"
+############################################################
